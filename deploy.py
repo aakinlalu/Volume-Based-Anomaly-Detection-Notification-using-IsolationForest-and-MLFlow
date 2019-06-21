@@ -67,18 +67,18 @@ def main():
         
     #Email parameters
     
-    host='mailhost.ext.national.com.au'
-    author='nabau_digital.insights.&.analytics@nab.com.au'
+    host=''
+    author=''
     
-    recipient0="eric.papaluca@nab.com.au"
-    recipient1="adebayo.akinlalu@nab.com.au"
-    recipient2="Andrew.Boscence@nab.com.au"
-    recipient3="sam.vertigan@nab.com.au"
-    recipient4="Kevin.Hanson@nab.com.au"
-    recipient5="Kevin.x.wilson@nab.com.au"
+    recipient0=""
+    recipient1=""
+    recipient2=""
+    recipient3=""
+    recipient4=""
+    recipient5=""
     
 
-    table_name = "cos_ib.activityhistory"
+    table_name = ""
     
     EmailNotify0 = notify(host=host,from_addr=author,to_addr=recipient0, table=table_name)
     EmailNotify1 = notify(host=host,from_addr=author,to_addr=recipient1, table=table_name)
@@ -91,18 +91,11 @@ def main():
     #------------------------Sourcing the dataset from db and conforming it----------------------------
     #SQL temeplate 
     template = """
-                select date(eventdatetime) as date,
-                    channelid,
-                    actioncode,
-                    browser as os_family,
-                   count(1)
-           from cos_ib.activity_history
-           where date(eventdatetime) = current_date - interval '2 days'
-           group by 1,2,3,4
+                
             """
     
     #Database Parameters
-    config_path = "/home/p759615/insights-analytics/IBAnomaly/config/config.ini"
+    config_path = ""
     which_database = "Redshift_prod"
     
     
@@ -149,7 +142,7 @@ def main():
     #location = client.get_experiment('0').artifact_location
     #runid = 'bedc2e0de2fd4f24b9e60bac8853abe2'
     
-    url = '/home/p759615/insights-analytics/IBAnomaly/mlruns/0/bedc2e0de2fd4f24b9e60bac8853abe2/artifacts/ib-isolationforest-model'
+    url = 'mlruns/0/bedc2e0de2fd4f24b9e60bac8853abe2/artifacts/ib-isolationforest-model'
     
     #modelurl = os.path.join(artifact_fact_url, 'ib-isolationforest-model')   #---- Create model url
     
@@ -163,8 +156,8 @@ def main():
    
     
     
-    if os.path.exists('/home/p759615/insights-analytics/IBAnomaly/Resultdir') == False:  #--Check if Resultdir does not exist 
-            os.mkdir('/home/p759615/insights-analytics/IBAnomaly/Resultdir')             #--- Then Create it         
+    if os.path.exists('Resultdir') == False:  #--Check if Resultdir does not exist 
+            os.mkdir('Resultdir')             #--- Then Create it         
         
     df['predictions'] = model.predict(data)  #----Predict and set the predictions as columns in the dataframe
     df['scores'] = scores
@@ -178,14 +171,14 @@ def main():
     filename = '_'.join(['anomaly', str(date.year), str(date.month), str(date.day)])   #---Create file name
         
     imagepath = '.'.join([filename, 'png'])
-    figpath =  '/home/p759615/insights-analytics/IBAnomaly/Resultdir' +'/'+ imagepath
+    figpath =  'Resultdir' +'/'+ imagepath
     decision_chart(scores, contamination, figpath)
 
 
     if len(anomaly_df)>0 and percent_contamination > (contamination*100):                             #-----If anomaly dataframe is not empty
         
         csvpath = '.'.join([filename, 'csv'])        
-        filepath =os.path.join('/home/p759615/insights-analytics/IBAnomaly/Resultdir', csvpath)      #------ set url for the filename
+        filepath =os.path.join('Resultdir', csvpath)      #------ set url for the filename
         anomaly_df.to_csv(filepath, index=False)          #--------Write the dataframe into csv
                         
 
