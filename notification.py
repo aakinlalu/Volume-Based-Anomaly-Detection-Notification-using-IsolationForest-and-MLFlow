@@ -38,7 +38,7 @@ class Notification:
                    If your dashboards or reporting views depend on this table, please notify your stakeholders.
                    <br>
                    <br>
-                  <b>Note</b>: DevOps are working to fix the problem. For further info: Contact: Eric Papaluca (Eric.Papaluca@nab.com.au). 
+                  <b>Note</b>: DevOps are working to fix the problem. For further info: Contact: XXXXXXXXXX). 
                    <br>
                    <br>
                   {}<br>
@@ -87,9 +87,9 @@ class Notification:
              <img src="cid:{}" alt="Decision Score" width="400" height="300">
              <hr>
              <br>
-             <b>Reference Information</b>: <a href="https://confluence.dss.ext.national.com.au/display/DINP/Data+Quality%3A+Volume+Based+Anomaly+Detection">Anomaly Documentation.</a>
+             <b>Reference Information</b>: <XXXXXXXX>Anomaly Documentation.</a>
             <br>
-            <b>For Further info: Contact</b>: Eric Papaluca (Eric.Papaluca@nab.com.au).
+            <b>For Further info: Contact</b>: XXXXX (XXXXXXX).
             <br>
             <br>
             {}<br>
