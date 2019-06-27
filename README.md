@@ -1,14 +1,14 @@
 
 # Volume Based Anomaly Detection 
 
-Volume Based Anomaly Detection is the kind of anomaly detection apply to volume of data. In this case,  it is applying to daily of volume based on features such as channelid, actioncode, os_family. The objectives of the anomaly include:
+Volume Based Anomaly Detection is the kind of anomaly detection apply to volume of data. In this case,  it is applying to daily of volume based on certain features. The objectives of the anomaly include:
 
 1. To detect  unusual daily volume of data such as:
     1. Too high volume i.e. that could be an indication of duplicate in the data.
     2. Too low volume i.e. that could be an indication that data is not processing  as it ought to be.
-2. Other unusual volume based on the features selected Or if there not data for the day.
+2. Other unusual volume based on the features selected Or if there is not data for the day.
 
-Since we do not know what anomaly is as per the systems (database tables) we would be investigating, we need to diverse a mean to estimate what anomaly could be in our daily volume. From the machine learning perspective, this problem is categorised as unsupervised.
+Since we do not know what anomaly is as per the systems (database tables) we would be investigating, we need to diverse a mean to estimate what anomaly could be in our daily volume. From machine learning perspective, this problem is categorised as unsupervised.
 
 ### Isolation Forest  
 The term isolation means ‘separating an instance from the rest of the instances’. Since anomalies are ‘few and different’ and therefore they are more susceptible to isolation. In a data-induced random tree, partitioning of instances are repeated recursively until all instances are isolated. This random partitioning produces noticeable shorter in a tree structure, and instances with distinguishable attribute-values are more likely to be separated in early partitioning. Hence, when a forest of random trees collectively produce shorter path lengths for some particular points, then they are highly likely to be anomalies.
@@ -49,13 +49,13 @@ Fig 1.
 
 ### Data processing and ETL
 1. Sql query or data source is fed into dbconnector.py which produces dataframe.
-2.  The dataframe especially column os_family which is a user-agent needs to be cleaned to produce OS family only. The dataframe needs to be regrouped sum columns "count" by date, channelid, actioncode and  os_family.
+2.  The dataframe especially column os_family which is a user-agent needs to be cleaned to produce OS family only. The dataframe needs to be regrouped sum columns "count" by date, other features.
 
 3. The date column in the dataframe is converted to the index. The index is used to generate two new columns weekday and month. The weekday and month allows us to understand the seasonality in the dataset.
 
-4. Since channelid and os_family are text datatype, we apply labelencoding technique to map them to numbers that the machine learning algorithms could consume. 
+4. Since some of the features are text datatype, we apply labelencoding technique to map them to numbers that the machine learning algorithms could consume. 
 
-5. Finally, the dataframe needs to be scaled by standard the dataset across.
+5. Finally, the dataframe needs to be scaled by standardise the dataset across.
 
 ### Model Training and Structure using MLFlow
 The training dataset is a year dataset with daily volume.
@@ -71,7 +71,7 @@ param_100_tree = {
 "random_state":2019
 }
 
-We assumed a contamination of 20% in the dataset. The result look like this:
+We assumed a contamination of 15% in the dataset. The result look like this:
 ![model](image/decisionfun.png)
 
 The histogram chart above represents distribution of decision function score.  The decision function of the isolation forest provides a score that is derived from the the average path lengths of the samples in the model. We can use this to decide which samples are anomalies. Basically, the cluster under -0.15 would be considered as anomaly. In this case, the cluster is insignificant. 
